@@ -1,0 +1,30 @@
+---
+- name: Get local file hash
+  ansible.builtin.set_fact:
+    local_hash: "{{ lookup('ansible.builtin.file', 'files/host/' ~ inventory_hostname ~ '/dnsmasq.conf') | hash('sha256') }}"
+
+- name: Get remote file hash
+  ansible.builtin.raw: "cat {{ setup_router_dnsmasq_target_path }} | head -c -1 | sha256sum | awk '{print $1}'"
+  register: remote_hash_result
+  ignore_errors: true
+  changed_when: false
+
+- name: Set remote hash fact
+  ansible.builtin.set_fact:
+    remote_hash: "{{ remote_hash_result.stdout | default('') | trim }}"
+
+- name: Debug hash values
+  ansible.builtin.debug:
+    msg: "Local hash: {{ local_hash }}, Remote hash: {{ remote_hash }}"
+
+- name: Update config if hashes are different
+  ansible.builtin.raw:
+    "echo '{{ lookup('ansible.builtin.file', 'files/host/' ~ inventory_hostname ~ '/dnsmasq.conf') }}'
+    > {{ setup_router_dnsmasq_target_path }}"
+  when: local_hash != remote_hash
+  changed_when: true
+
+- name: Restart Dnsmasq if config changed
+  ansible.builtin.raw: "service restart_dnsmasq"
+  when: local_hash != remote_hash
+  changed_when: true

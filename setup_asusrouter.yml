@@ -1,0 +1,7 @@
+---
+- name: Setup Asus Router
+  hosts: asusrouter
+  gather_facts: false
+  roles:
+    - role: setup_router_dnsmasq
+      tags: setup_router_dnsmasq

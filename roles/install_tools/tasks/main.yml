@@ -1,0 +1,8 @@
+---
+- name: Install Tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - git
+      - jq
+    update_cache: true

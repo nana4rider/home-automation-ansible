@@ -1,0 +1,9 @@
+---
+# https://stackoverflow.com/questions/61972815/ansible-modify-cmdline-txt-on-raspberry-pi
+- name: Add cmdline.txt
+  become: true
+  ansible.builtin.replace:
+    path: /boot/firmware/cmdline.txt
+    regexp: '^([\w](?!.*\b{{ item }}\b).*)$'
+    replace: '\1 {{ item }}'
+  with_items: "{{ setup_manager_app_add_cmdline_txt }}"

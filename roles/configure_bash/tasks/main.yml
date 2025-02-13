@@ -1,0 +1,35 @@
+---
+- name: Install Packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - peco
+    update_cache: true
+
+- name: Write variable content to .contextcolor
+  ansible.builtin.copy:
+    content: "{{ shell_context_color }}"
+    dest: "{{ ansible_env.HOME }}/.contextcolor"
+    mode: "0644"
+
+- name: Ensure .bashrc includes .bashrc.local if it exists
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    block: |
+      # >>> Load .bashrc.local if it exists (managed by Ansible) >>>
+      if [ -f "$HOME/.bashrc.local" ]; then
+          source "$HOME/.bashrc.local"
+      fi
+      # <<< End .bashrc.local block <<<
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    create: true
+    mode: "0644"
+
+- name: Sync Bash Scripts
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/{{ group_names[0] }}/"
+    dest: "{{ ansible_env.HOME }}/"
+    recursive: true
+    archive: false
+    checksum: true
+  delegate_to: localhost

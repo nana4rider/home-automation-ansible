@@ -1,0 +1,4 @@
+#!/bin/sh
+
+fastfetch --pipe false --logo raspbian --structure "OS:Host:Kernel:Uptime:Packages:CPU:GPU:Memory:Swap:Disk:LocalIP"
+echo ""

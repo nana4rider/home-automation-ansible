@@ -1,0 +1,25 @@
+---
+- name: Setup Raspberry Pi Door
+  hosts: raspberrypi_door
+  roles:
+    - role: install_tools
+      tags: install_tools
+    - role: configure_ssh
+      tags: configure_ssh
+    - role: configure_motd
+      tags: configure_motd
+    - role: configure_editor
+      tags: configure_editor
+    - role: configure_bash
+      tags: configure_bash
+
+    - role: geerlingguy.nodejs
+      become: true
+      tags: install_nodejs
+    - role: install_jema2mqtt
+      tags: install_jema2mqtt
+    - role: install_door_monitoring
+      tags: install_door_monitoring
+
+    - role: cleanup
+      tags: cleanup

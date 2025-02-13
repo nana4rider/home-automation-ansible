@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ansible-lint
+        name: ansible-lint (local)
+        entry: ansible-lint
+        language: system
+        types: [yaml]

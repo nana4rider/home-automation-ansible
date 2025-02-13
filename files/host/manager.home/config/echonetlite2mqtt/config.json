@@ -1,0 +1,4 @@
+{
+  "username": "{{ mqtt.username }}",
+  "password": "{{ mqtt.password }}"
+}

@@ -1,0 +1,13 @@
+---
+- name: Configure cron jobs
+  ansible.builtin.cron:
+    name: "{{ item.name }}"
+    user: "{{ ansible_user }}"
+    job: "{{ item.job }}"
+    minute: "{{ item.minute | default('0') }}"
+    hour: "{{ item.hour | default('*') }}"
+    day: "{{ item.day | default('*') }}"
+    month: "{{ item.month | default('*') }}"
+    weekday: "{{ item.weekday | default('*') }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ setup_manager_app_cron_jobs }}"

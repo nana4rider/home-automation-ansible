@@ -1,0 +1,105 @@
+---
+- name: Install Monitoring Services
+  become: true
+  ansible.builtin.apt:
+    name:
+      - prometheus-node-exporter
+    update_cache: true
+
+- name: Get latest release information from GitHub
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/grafana/loki/releases/latest"
+    return_content: true
+  register: latest_release
+
+- name: Extract latest version (without 'v') and promtail .deb URL
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.set_fact:
+    latest_version: "{{ latest_release.json.tag_name | regex_replace('^v', '') }}"
+    promtail_deb_url: >-
+      {{ latest_release.json.assets |
+         selectattr('name', 'search', 'promtail_.+_arm64.deb') |
+         map(attribute='browser_download_url') |
+         first }}
+
+- name: Check installed Promtail version
+  ansible.builtin.command: "dpkg-query -W -f='${Version}' promtail"
+  register: installed_promtail_version
+  ignore_errors: true
+  changed_when: false
+
+- name: Debug Promtail version
+  ansible.builtin.debug:
+    msg:
+      "Installed Promtail version: {{ installed_promtail_version.stdout | default('Not installed') }}
+      Latest Promtail version: {{ latest_version }}"
+
+- name: Check if Promtail needs installation
+  ansible.builtin.set_fact:
+    require_promtail_install: >-
+      {{ installed_promtail_version.rc != 0 or installed_promtail_version.stdout != latest_version }}
+
+- name: Download Promtail package
+  ansible.builtin.get_url:
+    url: "{{ promtail_deb_url }}"
+    dest: "/tmp/promtail.deb"
+    mode: "0644"
+  when: require_promtail_install
+
+- name: Install Promtail package
+  become: true
+  ansible.builtin.apt:
+    deb: "/tmp/promtail.deb"
+  when: require_promtail_install
+
+- name: Remove Temporary File
+  ansible.builtin.file:
+    path: "/tmp/promtail.deb"
+    state: absent
+  when: require_promtail_install
+
+- name: Ensure promtail user is in systemd-journal group
+  become: true
+  ansible.builtin.user:
+    name: promtail
+    groups: systemd-journal
+    append: true
+  when: require_promtail_install
+
+- name: Clone monitoring repository locally to /tmp
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.git:
+    repo: "git@github.com:{{ github_user }}/monitoring.git"
+    dest: "/tmp/monitoring"
+    version: main
+    depth: 1
+    accept_hostkey: true
+    update: true
+
+- name: Transfer Promtail config from local machine
+  become: true
+  ansible.builtin.copy:
+    src: "/tmp/monitoring/promtail/promtail_door.yml"
+    dest: "/etc/promtail/config.yml"
+    owner: root
+    group: root
+    mode: "0644"
+  register: promtail_config_copy
+
+- name: Reload systemd manager
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: require_promtail_install
+
+- name: Restart Promtail service
+  become: true
+  ansible.builtin.systemd:
+    name: promtail
+    state: restarted
+    enabled: true
+  when: require_promtail_install or promtail_config_copy.changed

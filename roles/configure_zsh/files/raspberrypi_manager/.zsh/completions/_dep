@@ -1,0 +1,14 @@
+#compdef dep
+
+# `_dep`関数で補完を設定
+_dep() {
+  # 補完候補を生成
+  local -a service_names
+  service_names=($(ls ~/repository/dockyard -F | grep / | sed s/\\/$//g) jema2mqtt)
+
+  # 補完候補を渡す
+  _describe 'service_name' service_names
+}
+
+# depコマンドに補完を設定
+compdef _dep dep

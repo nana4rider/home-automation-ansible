@@ -1,0 +1,12 @@
+{
+  "deviceId": "frontdoor",
+  "entities": [
+    {
+      "id": "frontdoor_lock",
+      "name": "玄関ドア",
+      "domain": "lock",
+      "controlGpio": 20,
+      "monitorGpio": 21
+    }
+  ]
+}

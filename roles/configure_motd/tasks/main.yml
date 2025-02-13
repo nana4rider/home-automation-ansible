@@ -1,0 +1,49 @@
+---
+- name: Check if command exists
+  ansible.builtin.command: "fastfetch"
+  register: fastfecth_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Check if Fastfetch needs installation
+  ansible.builtin.set_fact:
+    require_configure_motd_fastfetch_install: >-
+      {{ fastfecth_check.rc != 0 }}
+
+- name: Download Fastfetch package
+  ansible.builtin.get_url:
+    url: "{{ configure_motd_fastfetch_url }}"
+    dest: "/tmp/{{ configure_motd_fastfetch_package }}"
+    mode: "0644"
+  when: require_configure_motd_fastfetch_install
+
+- name: Install Fastfetch package
+  become: true
+  ansible.builtin.apt:
+    deb: "/tmp/{{ configure_motd_fastfetch_package }}"
+  when: require_configure_motd_fastfetch_install
+
+- name: Remove Temporary File
+  ansible.builtin.file:
+    path: "/tmp/{{ configure_motd_fastfetch_package }}"
+    state: absent
+  when: require_configure_motd_fastfetch_install
+
+- name: Clear /etc/motd
+  become: true
+  ansible.builtin.copy:
+    content: ""
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Transfer files to /etc/update-motd.d and set permissions
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/update-motd.d/{{ item | basename }}"
+    owner: root
+    group: root
+    mode: "0755"
+  loop: "{{ lookup('fileglob', 'files/*', wantlist=True) }}"

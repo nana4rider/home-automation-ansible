@@ -1,0 +1,2 @@
+---
+setup_router_dnsmasq_target_path: /jffs/configs/dnsmasq.conf.add

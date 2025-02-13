@@ -1,0 +1,32 @@
+---
+- name: Install VIM
+  become: true
+  ansible.builtin.apt:
+    name:
+      - vim
+    update_cache: true
+
+- name: Set VIM as default editor
+  become: true
+  community.general.alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
+
+- name: Sync VIM files
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/"
+    dest: "{{ ansible_env.HOME }}/"
+    recursive: true
+    archive: false
+    checksum: true
+  delegate_to: localhost
+
+- name: Create symbolic links for Vim config in root
+  become: true
+  ansible.builtin.file:
+    src: "{{ ansible_env.HOME }}/{{ item }}"
+    dest: "/root/{{ item }}"
+    state: link
+  loop:
+    - .vimrc
+    - .vim

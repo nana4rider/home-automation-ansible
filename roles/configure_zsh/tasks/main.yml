@@ -1,0 +1,52 @@
+---
+- name: Install Packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - zsh
+      - peco
+    update_cache: true
+
+- name: Write variable content to .contextcolor
+  ansible.builtin.copy:
+    content: "{{ shell_context_color }}"
+    dest: "{{ ansible_env.HOME }}/.contextcolor"
+    mode: "0644"
+
+- name: Change default shell to Zsh
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    shell: /bin/zsh
+
+- name: Download dotfiles
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/{{ github_user }}/dotfiles/refs/heads/main/linux/zsh/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - .zshrc
+    - .p10k.zsh
+
+- name: Sync Z-Shell Scripts
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/{{ group_names[0] }}/"
+    dest: "{{ ansible_env.HOME }}/"
+    recursive: true
+    archive: false
+    checksum: true
+  delegate_to: localhost
+
+- name: Find ~/.bash* files
+  ansible.builtin.find:
+    paths: "{{ ansible_env.HOME }}"
+    patterns: ".bash*"
+    file_type: file
+    hidden: true
+  register: bash_files
+
+- name: Delete ~/.bash* files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ bash_files.files }}"

@@ -1,0 +1,47 @@
+---
+- name: Create Config Directories
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/config"
+    state: directory
+    mode: "0755"
+
+- name: Find all config files in local directory
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.find:
+    paths: "{{ 'files/host/' ~ inventory_hostname ~ '/config' }}"
+    recurse: true
+    file_type: file
+  register: found_configs
+
+- name: Store config files list
+  ansible.builtin.set_fact:
+    config_files: "{{ found_configs.files | map(attribute='path') | list }}"
+
+- name: Ensure target directories exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/config/{{ item }}"
+    state: directory
+    mode: "0700"
+  loop: "{{ config_files | map('dirname') | map('basename') | unique | list }}"
+
+- name: Transfer configs to remote server
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/config/{{ item | dirname | basename }}/{{ item | basename }}"
+    mode: "0600"
+  loop: "{{ config_files }}"
+
+- name: Create app .ssh directories
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/config/{{ item }}/.ssh"
+    state: directory
+    mode: "0700"
+  loop: "{{ setup_manager_config_copy_private_keys }}"
+
+- name: Transfer app private keys
+  ansible.builtin.copy:
+    src: "files/all/ssh/{{ item }}/id_rsa.enc"
+    dest: "{{ ansible_env.HOME }}/config/{{ item }}/.ssh/id_rsa"
+    mode: "0600"
+  loop: "{{ setup_manager_config_copy_private_keys }}"

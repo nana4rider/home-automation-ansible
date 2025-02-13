@@ -1,0 +1,28 @@
+---
+- name: Setup Raspberry Pi Manager
+  hosts: raspberrypi_manager
+  roles:
+    - role: install_tools
+      tags: install_tools
+    - role: configure_ssh
+      tags: configure_ssh
+    - role: configure_motd
+      tags: configure_motd
+    - role: configure_editor
+      tags: configure_editor
+    - role: configure_zsh
+      tags: configure_zsh
+
+    - role: add_cmdline_txt
+      tags: add_cmdline_txt
+    - role: mount_backup_server
+      tags: mount_backup_server
+    - role: configure_crontab
+      tags: configure_crontab
+    - role: setup_manager_config
+      tags: setup_manager_config
+    - role: setup_manager_app
+      tags: setup_manager_app
+
+    - role: cleanup
+      tags: cleanup

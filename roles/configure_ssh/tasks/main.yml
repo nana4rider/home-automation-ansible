@@ -1,0 +1,21 @@
+---
+- name: Add SSH public keys from file
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "{{ lookup('file', ('files/all/ssh/' ~ item ~ '/id_rsa.pub.enc')) }}"
+  loop: "{{ authorized_key_names }}"
+
+- name: Transfer private key
+  ansible.builtin.copy:
+    src: "{{ 'files/all/ssh/' ~ ssh_key_name ~ '/id_rsa.enc' }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    mode: "0600"
+  when: ssh_key_name is defined
+
+- name: Transfer public key
+  ansible.builtin.copy:
+    src: "{{ 'files/all/ssh/' ~ ssh_key_name ~ '/id_rsa.pub.enc' }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+    mode: "0644"
+  when: ssh_key_name is defined

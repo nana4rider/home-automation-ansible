@@ -1,0 +1,12 @@
+{
+  "deviceId": "backdoor",
+  "entities": [
+    {
+      "id": "backdoor_lock",
+      "name": "勝手口ドア",
+      "domain": "lock",
+      "controlGpio": 20,
+      "monitorGpio": 21
+    }
+  ]
+}

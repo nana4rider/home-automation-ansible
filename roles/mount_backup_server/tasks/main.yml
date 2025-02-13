@@ -1,0 +1,25 @@
+---
+- name: Ensure backup mount directory exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ mount_backup_server_mount_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Create CIFS credentials file
+  become: true
+  ansible.builtin.copy:
+    content: |
+      username={{ backup.username }}
+      password={{ backup.password }}
+    dest: "{{ mount_backup_server_credentials }}"
+    mode: "0600"
+
+- name: Ensure CIFS mount is present in /etc/fstab and mounted
+  become: true
+  ansible.posix.mount:
+    path: "{{ mount_backup_server_mount_dir }}"
+    src: "//{{ mount_backup_server_target }}"
+    fstype: "cifs"
+    opts: "credentials={{ mount_backup_server_credentials }},vers=2.0"
+    state: "mounted"

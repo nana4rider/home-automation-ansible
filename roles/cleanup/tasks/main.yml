@@ -1,0 +1,6 @@
+---
+- name: Purge old configuration files
+  become: true
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true

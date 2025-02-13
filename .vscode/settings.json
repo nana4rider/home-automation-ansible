@@ -1,0 +1,27 @@
+{
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "hosts": "properties",
+    ".zshrc.local": "shellscript",
+    ".bashrc.local": "shellscript"
+  },
+  "ansible.python.interpreterPath": "/bin/python3",
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[env]": {
+    "editor.defaultFormatter": "IronGeek.vscode-env"
+  }
+}
