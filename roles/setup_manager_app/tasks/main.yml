@@ -79,38 +79,6 @@
     mode: "0600"
     force: true
 
-- name: Get Docker GID
-  ansible.builtin.command: getent group docker
-  register: docker_gid
-  changed_when: false
-
-- name: Extract Docker GID
-  ansible.builtin.set_fact:
-    docker_gid: "{{ docker_gid.stdout.split(':')[2] }}"
-
-- name: Set DOCKER_GID in promtail env
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/repository/dockyard/promtail/.env"
-    line: "DOCKER_GID={{ docker_gid }}"
-    create: true
-    mode: "0600"
-
-- name: Get systemd-journal GID
-  ansible.builtin.command: getent group systemd-journal
-  register: journal_gid
-  changed_when: false
-
-- name: Extract systemd-journal GID
-  ansible.builtin.set_fact:
-    journal_gid: "{{ journal_gid.stdout.split(':')[2] }}"
-
-- name: Set JOURNAL_GID in promtail env
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/repository/dockyard/promtail/.env"
-    line: "JOURNAL_GID={{ journal_gid }}"
-    create: true
-    mode: "0600"
-
 - name: Find all compose.yaml files
   ansible.builtin.find:
     paths: "{{ ansible_env.HOME }}/repository/dockyard"

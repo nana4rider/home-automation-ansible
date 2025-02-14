@@ -14,7 +14,7 @@ setup_manager_app_data_directories:
   - grafana
   - loki
   - prometheus
-  - promtail
+  - alloy
   - ring-face-recognition
   - ring-face-recognition/snapshot
   - wisun2mqtt
