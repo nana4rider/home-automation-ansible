@@ -18,8 +18,8 @@
       tags: install_nodejs
     - role: install_jema2mqtt
       tags: install_jema2mqtt
-    - role: install_door_monitoring
-      tags: install_door_monitoring
+    - role: install_alloy
+      tags: install_alloy
 
     - role: cleanup
       tags: cleanup

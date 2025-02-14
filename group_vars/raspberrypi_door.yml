@@ -1,3 +1,4 @@
 ---
 authorized_key_names:
   - manager.home
+alloy_config_name: config_door.alloy
