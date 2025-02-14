@@ -3,11 +3,11 @@
   ansible.builtin.cron:
     name: "{{ item.name }}"
     user: "{{ ansible_user }}"
-    job: "{{ item.job }}"
+    job: "({{ item.job }}) >/dev/null 2>&1"
     minute: "{{ item.minute | default('0') }}"
     hour: "{{ item.hour | default('*') }}"
     day: "{{ item.day | default('*') }}"
     month: "{{ item.month | default('*') }}"
     weekday: "{{ item.weekday | default('*') }}"
     state: "{{ item.state | default('present') }}"
-  loop: "{{ setup_manager_app_cron_jobs }}"
+  loop: "{{ cron_jobs }}"

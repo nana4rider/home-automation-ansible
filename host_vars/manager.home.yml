@@ -10,3 +10,23 @@ ssh_key_name: manager.home
 # done
 # echo -e "\e[0m"
 shell_context_color: 175
+
+cron_jobs:
+  - name: "backup"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/backup.sh"
+    hour: 4
+  - name: "full-backup"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/backup-full.sh"
+    hour: 5
+    day: "1"
+  - name: "docker-prune"
+    job: "docker container prune -f && docker volume prune -f"
+    hour: 5
+    weekday: "6"
+  - name: "smart-report"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/smart-report.sh"
+    hour: 19
+    weekday: "5"
+  - name: "grafana-exporter"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/grafana-exporter.sh"
+    minute: "*/10"
