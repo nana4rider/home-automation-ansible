@@ -79,6 +79,11 @@
     mode: "0600"
     force: true
 
+- name: Create container network
+  community.docker.docker_network:
+    name: common_network
+    driver: bridge
+
 - name: Find all compose.yaml files
   ansible.builtin.find:
     paths: "{{ ansible_env.HOME }}/repository/dockyard"
@@ -93,7 +98,7 @@
   loop: "{{ compose_files.files }}"
   loop_control:
     label: "{{ item.path }}"
-  async: 60
+  async: 300
   poll: 0
   changed_when: false
   register: async_jobs
