@@ -71,13 +71,19 @@
   retries: 30
   delay: 1
 
-- name: Create symlink for Cloudflare Tunnel env
+- name: Create .env for Cloudflare Tunnel
   ansible.builtin.copy:
     content: |
       TOKEN="{{ cloudflare.tunnel.token }}"
     dest: "{{ ansible_env.HOME }}/repository/dockyard/cloudflared-tunnel/.env"
     mode: "0600"
     force: true
+
+- name: Create .env for Mosquitto Exporter
+  ansible.builtin.template:
+    src: "files/host/{{ inventory_hostname }}/config/common/mqtt.env"
+    dest: "{{ ansible_env.HOME }}/repository/dockyard/mosquitto-exporter/.env"
+    mode: "0600"
 
 - name: Create container network
   community.docker.docker_network:
