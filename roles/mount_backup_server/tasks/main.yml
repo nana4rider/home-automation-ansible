@@ -19,7 +19,7 @@
   become: true
   ansible.posix.mount:
     path: "{{ mount_backup_server_mount_dir }}"
-    src: "//{{ mount_backup_server_target }}"
+    src: "//{{ backup.host }}/{{ backup.server_dir }}"
     fstype: "cifs"
     opts: "credentials={{ mount_backup_server_credentials }},vers=2.0"
     state: "mounted"

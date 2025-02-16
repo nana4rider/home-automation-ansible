@@ -1,4 +1,3 @@
 ---
 mount_backup_server_mount_dir: /mnt/backup
-mount_backup_server_target: backup.home/backup
 mount_backup_server_credentials: /root/.smbcredentials
