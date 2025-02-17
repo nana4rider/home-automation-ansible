@@ -12,10 +12,10 @@ ssh_key_name: manager.home
 shell_context_color: 175
 
 cron_jobs:
-  - name: "backup"
-    job: "{{ ansible_env.HOME }}/repository/shellpot/backup.sh"
+  - name: "backup-home"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/backup-home.sh"
     hour: 4
-  - name: "full-backup"
+  - name: "backup-full"
     job: "{{ ansible_env.HOME }}/repository/shellpot/backup-full.sh"
     hour: 5
     day: "1"
