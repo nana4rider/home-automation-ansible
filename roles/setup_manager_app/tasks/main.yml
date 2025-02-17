@@ -9,7 +9,6 @@
       - containerd.io
       - docker-compose-plugin
       # app
-      - at # deploy-webhook
       - smartmontools
     update_cache: true
 
