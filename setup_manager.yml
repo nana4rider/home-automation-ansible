@@ -17,8 +17,8 @@
       tags: add_cmdline_txt
     - role: mount_backup_server
       tags: mount_backup_server
-    - role: configure_crontab
-      tags: configure_crontab
+    - role: configure_cron
+      tags: configure_cron
     - role: setup_manager_config
       tags: setup_manager_config
     - role: setup_manager_app
