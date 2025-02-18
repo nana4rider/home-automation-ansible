@@ -3,7 +3,7 @@
   ansible.builtin.cron:
     name: "{{ item.name }}"
     user: "{{ ansible_user }}"
-    job: "({{ item.job }}) >/dev/null 2>&1"
+    job: "({{ item.job }}) 2>&1 | logger -t {{ item.name }}"
     minute: "{{ item.minute | default('0') }}"
     hour: "{{ item.hour | default('*') }}"
     day: "{{ item.day | default('*') }}"

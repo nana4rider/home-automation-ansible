@@ -12,21 +12,21 @@ ssh_key_name: manager.home
 shell_context_color: 175
 
 cron_jobs:
-  - name: "backup-home"
+  - name: "backup-home-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/backup-home.sh"
     hour: 4
-  - name: "backup-full"
+  - name: "backup-full-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/backup-full.sh"
     hour: 5
     day: "1"
-  - name: "docker-prune"
+  - name: "docker-prune-sh"
     job: "docker container prune -f && docker volume prune -f"
     hour: 5
     weekday: "6"
-  - name: "smart-report"
+  - name: "smart-report-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/smart-report.sh"
     hour: 19
     weekday: "5"
-  - name: "grafana-exporter"
+  - name: "grafana-exporter-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/grafana-exporter.sh"
     minute: "*/10"
