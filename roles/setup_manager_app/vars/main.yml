@@ -18,6 +18,7 @@ setup_manager_app_data_directories:
   - ring-face-recognition
   - ring-face-recognition/snapshot
   - wisun2mqtt
+  - home-wiki
 
 setup_manager_app_add_cmdline_txt:
   - "cgroup_enable=cpuset"
