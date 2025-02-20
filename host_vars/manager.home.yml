@@ -33,3 +33,7 @@ cron_jobs:
   - name: "push-home-wiki-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/push-home-wiki.sh"
     minute: "*/10"
+  - name: "pull-docker-image-sh"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/pull-docker-image.sh"
+    hour: 5
+    day: "2"

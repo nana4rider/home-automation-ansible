@@ -5,6 +5,7 @@
     name:
       - git
       - jq
+      - yq
     update_cache: true
 
 - name: Transfer .gitconfig
