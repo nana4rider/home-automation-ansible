@@ -45,14 +45,6 @@
     mode: "0600"
   when: not ring_face_recognition_remote_token.stat.exists
 
-- name: Clone Home Wiki
-  ansible.builtin.git:
-    repo: "git@github.com:{{ github_user }}/home-wiki.git"
-    dest: "{{ ansible_env.HOME }}/data/home-wiki"
-    accept_hostkey: true
-    version: main
-    depth: 1
-
 - name: Clone Git repositories with shallow depth if not already cloned
   ansible.builtin.git:
     repo: "git@github.com:{{ github_user }}/{{ item }}.git"
