@@ -1,0 +1,12 @@
+.vscode
+blueprints
+themes
+promtail
+alarm_control_panels.yaml
+automations.yaml
+binary_sensors.yaml
+configuration.yaml
+scenes.yaml
+scripts.yaml
+switches.yaml
+www/sidebar-config.yaml
