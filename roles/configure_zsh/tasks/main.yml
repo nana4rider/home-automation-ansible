@@ -21,7 +21,7 @@
 
 - name: Download dotfiles
   ansible.builtin.get_url:
-    url: "https://raw.githubusercontent.com/{{ github_user }}/dotfiles/refs/heads/main/linux/zsh/{{ item }}"
+    url: "https://raw.githubusercontent.com/{{ github.user }}/dotfiles/refs/heads/main/linux/zsh/{{ item }}"
     dest: "{{ ansible_env.HOME }}/{{ item }}"
     mode: "0644"
   loop:

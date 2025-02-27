@@ -31,7 +31,7 @@
 
 - name: Download index.mjs.gz"
   ansible.builtin.get_url:
-    url: "https://github.com/{{ github_user }}/jema2mqtt/releases/latest/download/index.mjs.gz"
+    url: "https://github.com/{{ github.user }}/jema2mqtt/releases/latest/download/index.mjs.gz"
     dest: "{{ install_jema2mqtt_app_dir }}/index.mjs.gz"
     mode: "0644"
   when: require_jema2mqtt_install
@@ -44,7 +44,7 @@
 
 - name: Download Service installer script
   ansible.builtin.get_url:
-    url: "https://raw.githubusercontent.com/{{ github_user }}/jema2mqtt/refs/heads/main/installer/install-service.sh"
+    url: "https://raw.githubusercontent.com/{{ github.user }}/jema2mqtt/refs/heads/main/installer/install-service.sh"
     dest: "/tmp/install-service.sh"
     mode: "0755"
   when: require_jema2mqtt_install

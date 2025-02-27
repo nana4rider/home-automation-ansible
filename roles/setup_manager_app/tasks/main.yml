@@ -47,7 +47,7 @@
 
 - name: Clone Git repositories with shallow depth if not already cloned
   ansible.builtin.git:
-    repo: "git@github.com:{{ github_user }}/{{ item }}.git"
+    repo: "git@github.com:{{ github.user }}/{{ item }}.git"
     dest: "{{ ansible_env.HOME }}/repository/{{ item }}"
     accept_hostkey: true
     version: main

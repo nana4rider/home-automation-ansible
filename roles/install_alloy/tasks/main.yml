@@ -45,7 +45,7 @@
   delegate_to: localhost
   run_once: true
   ansible.builtin.git:
-    repo: "git@github.com:{{ github_user }}/monitoring.git"
+    repo: "git@github.com:{{ github.user }}/monitoring.git"
     dest: "/tmp/monitoring"
     version: main
     depth: 1

@@ -9,7 +9,7 @@
     update_cache: true
 
 - name: Transfer .gitconfig
-  ansible.builtin.copy:
-    src: ".gitconfig"
+  ansible.builtin.template:
+    src: "files/.gitconfig"
     dest: "{{ ansible_env.HOME }}/"
     mode: "0644"
