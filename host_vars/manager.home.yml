@@ -12,13 +12,16 @@ ssh_key_name: manager.home
 shell_context_color: 175
 
 cron_jobs:
-  - name: "backup-home-sh"
-    job: "{{ ansible_env.HOME }}/repository/shellpot/backup-home.sh"
-    hour: 4
+  # Monthly
   - name: "backup-full-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/backup-full.sh"
     hour: 5
     day: "1"
+  - name: "pull-docker-image-sh"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/pull-docker-image.sh"
+    hour: 5
+    day: "2"
+  # Weekly
   - name: "docker-prune-sh"
     job: "docker container prune -f && docker volume prune -f"
     hour: 5
@@ -27,13 +30,17 @@ cron_jobs:
     job: "{{ ansible_env.HOME }}/repository/shellpot/smart-report.sh"
     hour: 19
     weekday: "5"
+  # Daily
+  - name: "backup-home-sh"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/backup-home.sh"
+    hour: 4
+  # Staggered every 10 minutes
   - name: "grafana-exporter-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/grafana-exporter.sh"
-    minute: "*/10"
+    minute: "1-51/10"
+  - name: "hass-config-exporter-sh"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/hass-config-exporter.sh"
+    minute: "2-52/10"
   - name: "push-home-wiki-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/push-home-wiki.sh"
-    minute: "*/10"
-  - name: "pull-docker-image-sh"
-    job: "{{ ansible_env.HOME }}/repository/shellpot/pull-docker-image.sh"
-    hour: 5
-    day: "2"
+    minute: "3-53/10"
