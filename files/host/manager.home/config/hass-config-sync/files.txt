@@ -1,4 +1,7 @@
 .vscode
+.storage/lovelace
+.storage/lovelace.dashboard_energy
+.storage/lovelace.lovelace_tablet
 blueprints
 themes/custom
 promtail
