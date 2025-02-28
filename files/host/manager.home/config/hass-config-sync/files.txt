@@ -1,6 +1,6 @@
 .vscode
 blueprints
-themes
+themes/custom
 promtail
 alarm_control_panels.yaml
 automations.yaml
