@@ -41,7 +41,7 @@
 
 - name: Transfer app private keys
   ansible.builtin.copy:
-    src: "files/all/ssh/{{ item }}/id_ed25519.enc"
+    src: "files/all/ssh/{{ item }}/id_ed25519"
     dest: "{{ ansible_env.HOME }}/config/{{ item }}/.ssh/id_ed25519"
     mode: "0600"
   loop: "{{ setup_manager_config_copy_private_keys }}"

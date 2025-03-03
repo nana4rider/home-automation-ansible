@@ -3,19 +3,19 @@
   ansible.posix.authorized_key:
     user: "{{ ansible_user }}"
     state: present
-    key: "{{ lookup('file', ('files/all/ssh/' ~ item ~ '/id_ed25519.pub.enc')) }}"
+    key: "{{ lookup('file', ('files/all/ssh/' ~ item ~ '/id_ed25519.pub')) }}"
   loop: "{{ authorized_key_names }}"
 
 - name: Transfer private key
   ansible.builtin.copy:
-    src: "{{ 'files/all/ssh/' ~ ssh_key_name ~ '/id_ed25519.enc' }}"
+    src: "{{ 'files/all/ssh/' ~ ssh_key_name ~ '/id_ed25519' }}"
     dest: "{{ ansible_env.HOME }}/.ssh/id_ed25519"
     mode: "0600"
   when: ssh_key_name is defined
 
 - name: Transfer public key
   ansible.builtin.copy:
-    src: "{{ 'files/all/ssh/' ~ ssh_key_name ~ '/id_ed25519.pub.enc' }}"
+    src: "{{ 'files/all/ssh/' ~ ssh_key_name ~ '/id_ed25519.pub' }}"
     dest: "{{ ansible_env.HOME }}/.ssh/id_ed25519.pub"
     mode: "0644"
   when: ssh_key_name is defined
