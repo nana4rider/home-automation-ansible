@@ -4,11 +4,6 @@ authorized_key_names:
   - hass.home
 ssh_key_name: manager.home
 
-# for i in {0..255}; do
-#   printf "\e[38;5;%dm%3d " "$i" "$i"
-#   if (( (i + 1) % 16 == 0 )); then echo; fi
-# done
-# echo -e "\e[0m"
 shell_context_color: 175
 
 cron_jobs:
