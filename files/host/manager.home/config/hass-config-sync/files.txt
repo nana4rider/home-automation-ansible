@@ -14,4 +14,5 @@ config/scenes.yaml
 config/scripts.yaml
 config/switches.yaml
 config/www/sidebar-config.yaml
+config/alloy/config_hass.alloy
 addon_configs/a0d7b954_nodered/flows.json
