@@ -4,7 +4,6 @@ config/.storage/lovelace.dashboard_energy
 config/.storage/lovelace.lovelace_tablet
 config/blueprints
 config/themes/custom
-config/promtail
 config/alarm_control_panels.yaml
 config/automations.yaml
 config/binary_sensors.yaml
