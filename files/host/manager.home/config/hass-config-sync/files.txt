@@ -6,7 +6,7 @@ config/blueprints
 config/themes/custom
 config/alarm_control_panels.yaml
 config/automations.yaml
-config/binary_sensors.yaml
+config/sensors.yaml
 config/configuration.yaml
 config/metrics.yaml
 config/scenes.yaml
