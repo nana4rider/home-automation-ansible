@@ -39,7 +39,8 @@
   become: true
   ansible.builtin.apt:
     name: alloy
-    state: present
+    state: latest
+  notify: Restart Alloy service
 
 - name: Clone monitoring repository locally to /tmp
   delegate_to: localhost

@@ -21,6 +21,7 @@
   become: true
   ansible.builtin.apt:
     deb: "/tmp/{{ configure_motd_fastfetch_package }}"
+    state: latest
   when: require_configure_motd_fastfetch_install
 
 - name: Remove Temporary File

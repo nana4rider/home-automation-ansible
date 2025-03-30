@@ -6,6 +6,7 @@
       - zsh
       - peco
     update_cache: true
+    state: latest
 
 - name: Write variable content to .contextcolor
   ansible.builtin.copy:

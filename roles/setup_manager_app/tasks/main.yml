@@ -11,6 +11,7 @@
       # app
       - smartmontools
     update_cache: true
+    state: latest
 
 - name: Add Docker Group
   become: true
