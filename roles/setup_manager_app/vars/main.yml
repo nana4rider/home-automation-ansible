@@ -20,7 +20,6 @@ setup_manager_app_data_directories:
   - ring-face-recognition
   - ring-face-recognition/snapshot
   - wisun2mqtt
-  - linkstack
   - authentik
   - authentik/postgresql
   - authentik/redis
