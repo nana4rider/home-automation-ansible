@@ -4,6 +4,8 @@
   roles:
     - role: install_tools
       tags: install_tools
+    - role: resize_swap
+      tags: resize_swap
     - role: configure_ssh
       tags: configure_ssh
     - role: configure_motd
