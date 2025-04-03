@@ -21,6 +21,8 @@
       tags: mount_backup_server
     - role: configure_cron
       tags: configure_cron
+    - role: setup_manager_data
+      tags: setup_manager_data
     - role: setup_manager_config
       tags: setup_manager_config
     - role: setup_manager_app
