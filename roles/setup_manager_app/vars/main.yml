@@ -9,22 +9,7 @@ setup_manager_app_clone_repositories:
 
 setup_manager_app_base_directories:
   - "repository"
-  - "data"
   - "dev"
-
-setup_manager_app_data_directories:
-  - grafana
-  - loki
-  - prometheus
-  - alloy
-  - ring-face-recognition
-  - ring-face-recognition/snapshot
-  - wisun2mqtt
-  - authentik
-  - authentik/postgresql
-  - authentik/redis
-  - authentik/media
-  - authentik/custom-templates
 
 setup_manager_app_add_cmdline_txt:
   - "cgroup_enable=cpuset"

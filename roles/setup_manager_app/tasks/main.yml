@@ -27,25 +27,6 @@
     mode: "0755"
   loop: "{{ setup_manager_app_base_directories }}"
 
-- name: Create Data Directories
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/data/{{ item }}"
-    state: directory
-    mode: "0700"
-  loop: "{{ setup_manager_app_data_directories }}"
-
-- name: Check if .refreshToken exists on remote host
-  ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/data/ring-face-recognition/.refreshToken"
-  register: ring_face_recognition_remote_token
-
-- name: Transfer refreshToken to remote host
-  ansible.builtin.copy:
-    src: "./files/temporary/ring-refreshToken"
-    dest: "{{ ansible_env.HOME }}/data/ring-face-recognition/.refreshToken"
-    mode: "0600"
-  when: not ring_face_recognition_remote_token.stat.exists
-
 - name: Clone Git repositories with shallow depth if not already cloned
   ansible.builtin.git:
     repo: "git@github.com:{{ github.user }}/{{ item }}.git"
