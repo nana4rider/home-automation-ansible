@@ -38,8 +38,8 @@
 - name: Install Grafana Alloy
   become: true
   ansible.builtin.apt:
-    name: alloy
-    state: latest
+    name: alloy={{ alloy_version }}
+    state: present
   notify: Restart Alloy service
 
 - name: Clone monitoring repository locally to /tmp

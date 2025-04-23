@@ -1,5 +1,7 @@
 ---
 nodejs_version: 22.x
+alloy_version: 1.7.5-1
+
 nodejs_install_npm_user: root
 
 authorized_key_names:
