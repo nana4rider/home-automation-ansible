@@ -1,5 +1,0 @@
-{
-  "clientId": "echonetlite2mqtt",
-  "username": "{{ mqtt.username }}",
-  "password": "{{ mqtt.password }}"
-}
