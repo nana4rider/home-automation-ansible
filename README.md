@@ -5,7 +5,7 @@
 ```sh
 sudo apt -y install pipx
 sudo apt -y autoremove --purge
-pipx install ansible ansible-lint pre-commit
+pipx install ansible ansible-core ansible-lint pre-commit
 ansible-galaxy role install -r requirements.yml
 ansible-galaxy collection install -r requirements.yml
 pre-commit install
