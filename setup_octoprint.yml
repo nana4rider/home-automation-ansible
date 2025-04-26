@@ -1,0 +1,9 @@
+---
+- name: Setup Raspberry Pi OctoPi
+  hosts: raspberrypi_octopi
+  roles:
+    - role: configure_editor
+      tags: configure_editor
+
+    - role: configure_octoprint
+      tags: configure_octoprint

@@ -1,0 +1,35 @@
+---
+- name: Make a temporary editable copy of config.yaml
+  ansible.builtin.copy:
+    src: "{{ configure_octoprint_config_path }}"
+    dest: "{{ configure_octoprint_config_path }}.tmp"
+    mode: "0644"
+    remote_src: true
+
+- name: Apply yq changes to the backup file
+  ansible.builtin.command: >
+    yq -i '.accessControl = {
+      "addRemoteUsers": true,
+      "remoteUserHeader": "X-authentik-username",
+      "trustRemoteUser": true
+    }' {{ configure_octoprint_config_path }}.tmp
+  register: apply_yq
+  changed_when: false
+
+- name: Check if there are differences between edited and original config.yaml
+  ansible.builtin.command: >
+    diff -q {{ configure_octoprint_config_path }} {{ configure_octoprint_config_path }}.tmp
+  register: config_diff
+  changed_when: false
+  ignore_errors: true
+  failed_when: false
+
+- name: Apply changes if needed
+  ansible.builtin.copy:
+    src: "{{ configure_octoprint_config_path }}.tmp"
+    dest: "{{ configure_octoprint_config_path }}"
+    mode: "0644"
+    remote_src: true
+  when: config_diff.rc != 0
+  changed_when: config_diff.rc != 0
+  notify: Restart OctoPrint service

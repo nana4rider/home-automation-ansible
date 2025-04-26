@@ -1,0 +1,2 @@
+---
+configure_octoprint_config_path: "{{ ansible_env.HOME }}/.octoprint/config.yaml"
