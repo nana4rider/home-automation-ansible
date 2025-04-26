@@ -18,8 +18,8 @@
       tags: install_nodejs
     - role: install_jema2mqtt
       tags: install_jema2mqtt
-    - role: install_alloy
-      tags: install_alloy
+    - role: install_node_exporter
+      tags: install_node_exporter
 
     - role: cleanup
       tags: cleanup

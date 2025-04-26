@@ -7,3 +7,8 @@
 
     - role: configure_octoprint
       tags: configure_octoprint
+    - role: install_node_exporter
+      tags: install_node_exporter
+
+    - role: cleanup
+      tags: cleanup

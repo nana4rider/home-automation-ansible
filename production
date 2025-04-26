@@ -9,4 +9,4 @@ frontdoor.home
 backdoor.home
 
 [raspberrypi_octopi]
-octoprint.home
+octopi.home

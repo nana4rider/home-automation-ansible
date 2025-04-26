@@ -1,8 +1,8 @@
 ---
-- name: Restart Alloy service
+- name: Restart Node Exporter service
   become: true
   ansible.builtin.systemd:
-    name: alloy
+    name: prometheus-node-exporter
     state: restarted
     daemon_reload: true
     enabled: true

@@ -1,0 +1,12 @@
+---
+- name: Update APT cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Node Exporter
+  become: true
+  ansible.builtin.apt:
+    name: prometheus-node-exporter
+    state: present
+  notify: Restart Node Exporter service
