@@ -11,7 +11,8 @@
     yq -i '.accessControl = {
       "addRemoteUsers": true,
       "remoteUserHeader": "X-authentik-username",
-      "trustRemoteUser": true
+      "trustRemoteUser": true,
+      "defaultReauthenticationTimeout": 0
     }' {{ configure_octoprint_config_path }}.tmp
   register: apply_yq
   changed_when: false
