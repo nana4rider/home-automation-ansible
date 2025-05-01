@@ -4,6 +4,8 @@
   roles:
     - role: configure_editor
       tags: configure_editor
+    - role: configure_bash
+      tags: configure_bash
 
     - role: configure_octoprint
       tags: configure_octoprint

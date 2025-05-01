@@ -28,7 +28,7 @@
 
 - name: Sync Bash Scripts
   ansible.posix.synchronize:
-    src: "{{ role_path }}/files/{{ group_names[0] }}/"
+    src: "{{ role_path }}/files/"
     dest: "{{ ansible_env.HOME }}/"
     recursive: true
     archive: false
