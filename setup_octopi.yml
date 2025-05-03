@@ -11,6 +11,10 @@
       tags: configure_octoprint
     - role: install_node_exporter
       tags: install_node_exporter
+    - role: mount_backup_server
+      tags: mount_backup_server
+    - role: configure_cron
+      tags: configure_cron
 
     - role: cleanup
       tags: cleanup

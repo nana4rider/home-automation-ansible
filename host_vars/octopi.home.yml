@@ -1,2 +1,8 @@
 ---
 shell_context_color: 70
+
+cron_jobs:
+  # Hourly
+  - name: "sync-backup"
+    job: "rsync -a {{ ansible_env.HOME }}/.octoprint/data/backup/ {{ backup.mount_dir }}/octopi.home/"
+    minute: 0

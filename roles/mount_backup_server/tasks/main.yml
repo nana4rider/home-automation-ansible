@@ -21,5 +21,6 @@
     path: "{{ backup.mount_dir }}"
     src: "//{{ backup.host }}/{{ backup.server_dir }}"
     fstype: "cifs"
-    opts: "credentials={{ mount_backup_server_credentials }},vers=2.0"
+    opts: "credentials={{ mount_backup_server_credentials }},vers=2.0,uid={{
+      backup.mount_uid }},gid={{ backup.mount_gid }},file_mode=0644,dir_mode=0755"
     state: "mounted"
