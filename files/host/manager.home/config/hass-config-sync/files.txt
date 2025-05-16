@@ -5,9 +5,11 @@ config/.storage/lovelace.lovelace_tablet
 config/blueprints
 config/themes/custom
 config/alarm_control_panels.yaml
+config/alexa.yaml
 config/automations.yaml
 config/sensors.yaml
 config/configuration.yaml
+config/group.yaml
 config/metrics.yaml
 config/mqtt.yaml
 config/scenes.yaml
