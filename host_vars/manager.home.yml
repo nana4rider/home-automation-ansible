@@ -20,7 +20,7 @@ cron_jobs:
     day: "2"
   # Weekly
   - name: "docker-prune-sh"
-    job: "docker container prune -f && docker volume prune -f"
+    job: "docker system prune -a -f"
     hour: 5
     weekday: "6"
   - name: "smart-report-sh"
