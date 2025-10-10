@@ -1,7 +1,4 @@
 ---
-roles:
-  - name: geerlingguy.nodejs
-    src: geerlingguy.nodejs
 collections:
   - name: ansible.posix
   - name: community.general

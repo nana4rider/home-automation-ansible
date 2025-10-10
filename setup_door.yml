@@ -13,8 +13,7 @@
     - role: configure_bash
       tags: configure_bash
 
-    - role: geerlingguy.nodejs
-      become: true
+    - role: install_nodejs
       tags: install_nodejs
     - role: install_jema2mqtt
       tags: install_jema2mqtt

@@ -1,5 +1,5 @@
 ---
-nodejs_version: 24.x
+nodejs_version: 24
 
 nodejs_install_npm_user: root
 

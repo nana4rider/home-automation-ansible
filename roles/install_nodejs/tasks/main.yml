@@ -1,0 +1,42 @@
+---
+- name: Check installed Node.js version
+  ansible.builtin.command: node -v
+  register: node_version_result
+  ignore_errors: true
+  changed_when: false
+
+- name: Extract installed Node.js major version
+  ansible.builtin.set_fact:
+    installed_node_major: >-
+      {{ (node_version_result.stdout | regex_replace('^v', '')).split('.')[0]
+         if node_version_result.rc == 0 else 0 }}
+
+- name: Decide whether to run setup script
+  ansible.builtin.set_fact:
+    node_setup_needed: "{{ installed_node_major != (nodejs_version | string) }}"
+
+- name: Download Node.js installer script
+  ansible.builtin.get_url:
+    url: "{{ install_nodejs_installer_url }}"
+    dest: "{{ install_nodejs_setup_script }}"
+    mode: "0755"
+  when: node_setup_needed
+
+- name: Setup NodeSource Node.js repository
+  ansible.builtin.command:
+    cmd: "{{ install_nodejs_setup_script }}"
+  when: node_setup_needed
+  changed_when: true
+
+- name: Install Node.js
+  become: true
+  ansible.builtin.apt:
+    name: nodejs
+    state: latest
+    update_cache: true
+
+- name: Remove Temporary File
+  ansible.builtin.file:
+    dest: "{{ install_nodejs_setup_script }}"
+    state: absent
+  when: node_setup_needed
