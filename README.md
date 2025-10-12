@@ -1,6 +1,8 @@
 # Home Automation Ansible
 
-## 初期設定
+![GitHub Actions Lint](https://github.com/nana4rider/home-automation-ansible/actions/workflows/lint.yml/badge.svg)
+
+## インストール
 
 ```sh
 sudo apt -y install pipx
@@ -10,20 +12,21 @@ ansible-galaxy collection install -r requirements.yml
 pre-commit install
 ```
 
-## 使い方
-
-```sh
-ansible-playbook setup_manager.yml
-ansible-playbook setup_door.yml --limit frontdoor.home
-ansible-playbook setup_door.yml --limit frontdoor.home --tags install_nodejs
-```
-
 ## アップデート
 
 ```sh
 pipx upgrade ansible
 pipx upgrade ansible-core
 pipx upgrade ansible-lint
+ansible-galaxy collection install -r requirements.yml --upgrade
+```
+
+## 使い方
+
+```sh
+ansible-playbook setup_manager.yml
+ansible-playbook setup_door.yml --limit frontdoor.home
+ansible-playbook setup_door.yml --limit frontdoor.home --tags install_nodejs
 ```
 
 ### 参考
