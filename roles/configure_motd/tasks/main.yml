@@ -1,34 +1,34 @@
 ---
 - name: Check if command exists
   ansible.builtin.command: "fastfetch"
-  register: fastfecth_check
+  register: configure_motd_fastfecth_check
   ignore_errors: true
   changed_when: false
 
 - name: Check if Fastfetch needs installation
   ansible.builtin.set_fact:
-    require_configure_motd_fastfetch_install: >-
-      {{ fastfecth_check.rc != 0 }}
+    configure_motd_require_fastfetch_install: >-
+      {{ configure_motd_fastfecth_check.rc != 0 }}
 
 - name: Download Fastfetch package
   ansible.builtin.get_url:
     url: "{{ configure_motd_fastfetch_url }}"
     dest: "/tmp/{{ configure_motd_fastfetch_package }}"
     mode: "0644"
-  when: require_configure_motd_fastfetch_install
+  when: configure_motd_require_fastfetch_install
 
 - name: Install Fastfetch package
   become: true
   ansible.builtin.apt:
     deb: "/tmp/{{ configure_motd_fastfetch_package }}"
     state: latest
-  when: require_configure_motd_fastfetch_install
+  when: configure_motd_require_fastfetch_install
 
 - name: Remove Temporary File
   ansible.builtin.file:
     path: "/tmp/{{ configure_motd_fastfetch_package }}"
     state: absent
-  when: require_configure_motd_fastfetch_install
+  when: configure_motd_require_fastfetch_install
 
 - name: Clear /etc/motd
   become: true

@@ -12,25 +12,25 @@
     paths: "{{ 'files/host/' ~ inventory_hostname ~ '/config' }}"
     recurse: true
     file_type: file
-  register: found_configs
+  register: setup_manager_config_found_files
 
 - name: Store config files list
   ansible.builtin.set_fact:
-    config_files: "{{ found_configs.files | map(attribute='path') | list }}"
+    setup_manager_config_files: "{{ setup_manager_config_found_files.files | map(attribute='path') | list }}"
 
 - name: Ensure target directories exist
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/config/{{ item }}"
     state: directory
     mode: "0700"
-  loop: "{{ config_files | map('dirname') | map('basename') | unique | list }}"
+  loop: "{{ setup_manager_config_files | map('dirname') | map('basename') | unique | list }}"
 
 - name: Transfer configs to remote server
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/config/{{ item | dirname | basename }}/{{ item | basename }}"
     mode: "0600"
-  loop: "{{ config_files }}"
+  loop: "{{ setup_manager_config_files }}"
 
 - name: Create app .ssh directories
   ansible.builtin.file:

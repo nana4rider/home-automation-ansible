@@ -18,6 +18,14 @@ ansible-playbook setup_door.yml --limit frontdoor.home
 ansible-playbook setup_door.yml --limit frontdoor.home --tags install_nodejs
 ```
 
+## アップデート
+
+```sh
+pipx upgrade ansible
+pipx upgrade ansible-core
+pipx upgrade ansible-lint
+```
+
 ### 参考
 - https://docs.ansible.com/ansible/2.9_ja/user_guide/intro_patterns.html
 - https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html#selecting-or-skipping-tags-when-you-run-a-playbook

@@ -44,10 +44,10 @@
     patterns: ".bash*"
     file_type: file
     hidden: true
-  register: bash_files
+  register: configure_zsh_bash_files
 
 - name: Delete ~/.bash* files
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
-  loop: "{{ bash_files.files }}"
+  loop: "{{ configure_zsh_bash_files.files }}"

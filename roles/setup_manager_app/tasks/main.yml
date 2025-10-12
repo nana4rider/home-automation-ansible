@@ -38,17 +38,17 @@
   async: 10
   poll: 0
   changed_when: false
-  register: async_jobs
+  register: setup_manager_app_async_jobs
 
 - name: Wait for async tasks to complete
   ansible.builtin.async_status:
     jid: "{{ item.ansible_job_id }}"
-  loop: "{{ async_jobs.results }}"
+  loop: "{{ setup_manager_app_async_jobs.results }}"
   loop_control:
     label: "{{ item.item }}"
   when: item.ansible_job_id is defined
-  register: async_poll_results
-  until: async_poll_results.finished
+  register: setup_manager_app_async_poll_results
+  until: setup_manager_app_async_poll_results.finished
   retries: 30
   delay: 1
 
@@ -70,28 +70,28 @@
     paths: "{{ ansible_env.HOME }}/repository/dockyard"
     patterns: "compose.yaml"
     recurse: true
-  register: compose_files
+  register: setup_manager_app_compose_files
 
 - name: Start docker compose up -d asynchronously
   community.docker.docker_compose_v2:
     project_src: "{{ item.path | dirname }}"
     state: present
-  loop: "{{ compose_files.files }}"
+  loop: "{{ setup_manager_app_compose_files.files }}"
   loop_control:
     label: "{{ item.path }}"
   async: 300
   poll: 0
   changed_when: false
-  register: async_jobs
+  register: setup_manager_app_async_jobs
 
 - name: Wait for async tasks to complete
   ansible.builtin.async_status:
     jid: "{{ item.ansible_job_id }}"
-  loop: "{{ async_jobs.results }}"
+  loop: "{{ setup_manager_app_async_jobs.results }}"
   loop_control:
     label: "{{ item.item.path }}"
   when: item.ansible_job_id is defined
-  register: async_poll_results
-  until: async_poll_results.finished
+  register: setup_manager_app_async_poll_results
+  until: setup_manager_app_async_poll_results.finished
   retries: 20
   delay: 3

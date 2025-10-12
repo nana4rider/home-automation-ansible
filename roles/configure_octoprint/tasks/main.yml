@@ -14,13 +14,12 @@
       "trustRemoteUser": true,
       "defaultReauthenticationTimeout": 0
     }' {{ configure_octoprint_config_path }}.tmp
-  register: apply_yq
   changed_when: false
 
 - name: Check if there are differences between edited and original config.yaml
   ansible.builtin.command: >
     diff -q {{ configure_octoprint_config_path }} {{ configure_octoprint_config_path }}.tmp
-  register: config_diff
+  register: configure_octoprint_config_diff
   changed_when: false
   ignore_errors: true
   failed_when: false
@@ -31,6 +30,6 @@
     dest: "{{ configure_octoprint_config_path }}"
     mode: "0644"
     remote_src: true
-  when: config_diff.rc != 0
-  changed_when: config_diff.rc != 0
+  when: configure_octoprint_config_diff.rc != 0
+  changed_when: configure_octoprint_config_diff.rc != 0
   notify: Restart OctoPrint service
