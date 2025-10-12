@@ -15,10 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Create vault password file
-        id: create_vault_pass
         run: |
-          echo "${{ secrets.ANSIBLE_VAULT_PASS }}" > .vault_pass.txt
-          chmod 600 .vault_pass.txt
+          echo "${{ secrets.ANSIBLE_VAULT_PASS }}" > ~/.vault_pass.txt
+          chmod 600 ~/.vault_pass.txt
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
         with:
