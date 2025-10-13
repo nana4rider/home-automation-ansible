@@ -13,7 +13,7 @@ jobs:
     name: Ansible Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Create vault password file
         run: |
           echo "${{ secrets.ANSIBLE_VAULT_PASS }}" > ~/.vault_pass.txt
