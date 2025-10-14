@@ -35,7 +35,7 @@
     version: main
     depth: 1
   loop: "{{ setup_manager_app_clone_repositories }}"
-  async: 10
+  async: 20
   poll: 0
   changed_when: false
   register: setup_manager_app_async_jobs
