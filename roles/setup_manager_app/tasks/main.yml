@@ -56,7 +56,7 @@
   ansible.builtin.copy:
     content: |
       TOKEN="{{ cloudflare.tunnel.token }}"
-    dest: "{{ ansible_env.HOME }}/repository/dockyard/cloudflared-tunnel/.env"
+    dest: "{{ ansible_env.HOME }}/repository/dockyard/cloudflared/.env"
     mode: "0600"
     force: true
 
