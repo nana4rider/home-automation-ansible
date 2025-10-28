@@ -1,6 +1,5 @@
 config/.vscode
 config/.storage/lovelace
-config/.storage/lovelace.dashboard_energy
 config/.storage/lovelace.lovelace_tablet
 config/blueprints
 config/themes/custom
