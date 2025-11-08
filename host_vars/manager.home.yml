@@ -14,10 +14,6 @@ cron_jobs:
     job: "{{ ansible_env.HOME }}/repository/shellpot/backup-full.sh"
     hour: 5
     day: "1"
-  - name: "pull-docker-image-sh"
-    job: "{{ ansible_env.HOME }}/repository/shellpot/pull-docker-image.sh"
-    hour: 5
-    day: "2"
   # Weekly
   - name: "docker-prune-sh"
     job: "docker system prune -a -f"
