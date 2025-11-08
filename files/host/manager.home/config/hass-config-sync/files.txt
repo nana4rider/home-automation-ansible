@@ -14,5 +14,6 @@ config/mqtt.yaml
 config/scenes.yaml
 config/scripts.yaml
 config/switches.yaml
+config/pc2mqtt-config.json
 config/www/sidebar-config.yaml
 addon_configs/a0d7b954_nodered/flows.json

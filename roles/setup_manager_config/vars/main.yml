@@ -1,4 +1,3 @@
 ---
 setup_manager_config_copy_private_keys:
   - deploy-webhook
-  - pc2mqtt
