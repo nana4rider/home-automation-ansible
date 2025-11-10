@@ -1,0 +1,14 @@
+---
+- name: Set autoconnect-retries to {{ configure_network_manager_autoconnect_retries }}
+  become: true
+  community.general.ini_file:
+    path: /etc/NetworkManager/system-connections/preconfigured.nmconnection
+    section: connection
+    option: autoconnect-retries
+    value: "{{ configure_network_manager_autoconnect_retries }}"
+    state: present
+    mode: "0600"
+    backup: true
+    no_extra_spaces: true
+  notify:
+    - Restart NetworkManager Service

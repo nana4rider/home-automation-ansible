@@ -2,6 +2,8 @@
 - name: Setup Raspberry Pi OctoPi
   hosts: raspberrypi_octopi
   roles:
+    - role: configure_network_manager
+      tags: configure_network_manager
     - role: configure_editor
       tags: configure_editor
     - role: configure_bash
