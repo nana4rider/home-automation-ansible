@@ -2,6 +2,6 @@
 - name: Deploy dnsmasq.conf
   ansible.builtin.copy:
     src: "files/host/{{ inventory_hostname }}/dnsmasq.conf"
-    dest: "{{ setup_router_dnsmasq_target_path }}"
+    dest: "{{ router_setup_dnsmasq_target_path }}"
     mode: "0666"
   notify: Restart dnsmasq
