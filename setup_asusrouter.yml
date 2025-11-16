@@ -3,5 +3,9 @@
   hosts: asusrouter
   gather_facts: false
   roles:
+    - role: router_install_ansible_runtime
+      tags: router_install_ansible_runtime
     - role: router_setup_dnsmasq
       tags: router_setup_dnsmasq
+    - role: router_install_node_exporter
+      tags: router_install_node_exporter

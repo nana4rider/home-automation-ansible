@@ -1,0 +1,16 @@
+---
+- name: Install Python
+  ansible.builtin.raw: "opkg install python3"
+  register: router_install_ansible_runtime_opkg_result
+  changed_when: "'Installing' in router_install_ansible_runtime_opkg_result.stdout"
+
+- name: Install SFTP Server
+  ansible.builtin.raw: "opkg install openssh-sftp-server"
+  register: router_install_ansible_runtime_opkg_result
+  changed_when: "'Installing' in router_install_ansible_runtime_opkg_result.stdout"
+
+- name: Create App directory
+  ansible.builtin.file:
+    path: "{{ router_app_dir }}"
+    state: directory
+    mode: "0755"

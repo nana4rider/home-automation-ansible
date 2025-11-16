@@ -1,2 +1,4 @@
 ---
 ansible_python_interpreter: /opt/bin/python
+router_app_dir: /tmp/mnt/sda1/app
+router_post_mount_script: /jffs/scripts/post-mount

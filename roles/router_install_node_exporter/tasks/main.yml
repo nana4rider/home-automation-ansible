@@ -1,0 +1,52 @@
+---
+- name: Check if command exists
+  ansible.builtin.command: "{{ router_install_node_exporter_install_dir }}/node_exporter --version"
+  register: router_install_node_exporter_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Check if node_exporter needs installation
+  ansible.builtin.set_fact:
+    router_install_node_exporter_install: >-
+      {{ router_install_node_exporter_check.rc != 0 }}
+
+- name: Download node_exporter package
+  ansible.builtin.get_url:
+    url: "{{ router_install_node_exporter_url }}"
+    dest: "/tmp/{{ router_install_node_exporter_archive_filename }}"
+    mode: "0644"
+  when: router_install_node_exporter_install
+
+- name: Create node_exporter directory
+  ansible.builtin.file:
+    path: "{{ router_install_node_exporter_install_dir }}"
+    state: directory
+    mode: "0755"
+
+# GNU tarが必要なためrawモジュールで実行
+- name: Unarchive node_exporter package
+  ansible.builtin.raw:
+    "tar -xzf /tmp/{{ router_install_node_exporter_archive_filename }} -O {{
+    router_install_node_exporter_name }}/node_exporter > {{ router_install_node_exporter_install_dir }}/node_exporter"
+  changed_when: true
+  when: router_install_node_exporter_install
+
+- name: Change file permissions
+  ansible.builtin.file:
+    path: "{{ router_install_node_exporter_install_dir }}/node_exporter"
+    mode: "0755"
+  when: router_install_node_exporter_install
+
+- name: Ensure node-exporter command is present in post-mount
+  ansible.builtin.lineinfile:
+    path: "{{ router_post_mount_script }}"
+    line: '{{ router_install_node_exporter_install_dir }}/node_exporter --no-collector.netdev --collector.filesystem.mount-points-exclude="^/tmp/mnt($|/.*)" &'
+    insertafter: EOF
+    state: present
+  when: router_install_node_exporter_install
+
+- name: Remove Temporary File
+  ansible.builtin.file:
+    path: "/tmp/{{ router_install_node_exporter_archive_filename }}"
+    state: absent
+  when: router_install_node_exporter_install
