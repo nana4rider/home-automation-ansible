@@ -1,4 +1,0 @@
----
-- name: Commit nvram
-  ansible.builtin.raw: "nvram commit"
-  changed_when: true
