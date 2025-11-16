@@ -40,7 +40,7 @@
 - name: Ensure node-exporter command is present in post-mount
   ansible.builtin.lineinfile:
     path: "{{ router_post_mount_script }}"
-    line: '{{ router_install_node_exporter_install_dir }}/node_exporter --no-collector.netdev --collector.filesystem.mount-points-exclude="^/tmp/mnt($|/.*)" &'
+    line: "{{ router_install_node_exporter_install_dir }}/node_exporter {{ router_install_node_exporter_options }} &"
     insertafter: EOF
     state: present
   when: router_install_node_exporter_install
