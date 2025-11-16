@@ -37,16 +37,15 @@
     mode: "0755"
   when: router_install_node_exporter_install
 
-- name: Ensure node-exporter command is present in post-mount
-  ansible.builtin.lineinfile:
-    path: "{{ router_post_mount_script }}"
-    line: "{{ router_install_node_exporter_install_dir }}/node_exporter {{ router_install_node_exporter_options }} &"
-    insertafter: EOF
-    state: present
-  when: router_install_node_exporter_install
-
 - name: Remove Temporary File
   ansible.builtin.file:
     path: "/tmp/{{ router_install_node_exporter_archive_filename }}"
     state: absent
   when: router_install_node_exporter_install
+
+- name: Ensure node_exporter command is present in post-mount
+  ansible.builtin.lineinfile:
+    path: "{{ router_post_mount_script }}"
+    line: "{{ router_install_node_exporter_install_dir }}/node_exporter {{ router_install_node_exporter_options }} &"
+    insertafter: EOF
+    state: present
