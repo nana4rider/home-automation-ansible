@@ -1,0 +1,56 @@
+---
+- name: Install smartmontools
+  ansible.builtin.raw: "opkg install smartmontools"
+  register: router_install_smartctl_exporter_opkg_result
+  changed_when: "'Installing' in router_install_smartctl_exporter_opkg_result.stdout"
+
+- name: Check if command exists
+  ansible.builtin.command: "{{ router_install_smartctl_exporter_install_dir }}/smartctl_exporter --version"
+  register: router_install_smartctl_exporter_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Check if smartctl_exporter needs installation
+  ansible.builtin.set_fact:
+    router_install_smartctl_exporter_install: >-
+      {{ router_install_smartctl_exporter_check.rc != 0 }}
+
+- name: Download smartctl_exporter package
+  ansible.builtin.get_url:
+    url: "{{ router_install_smartctl_exporter_url }}"
+    dest: "/tmp/{{ router_install_smartctl_exporter_archive_filename }}"
+    mode: "0644"
+  when: router_install_smartctl_exporter_install
+
+- name: Create smartctl_exporter directory
+  ansible.builtin.file:
+    path: "{{ router_install_smartctl_exporter_install_dir }}"
+    state: directory
+    mode: "0755"
+
+# GNU tarが必要なためrawモジュールで実行
+- name: Unarchive smartctl_exporter package
+  ansible.builtin.raw:
+    "tar -xzf /tmp/{{ router_install_smartctl_exporter_archive_filename }} -O {{
+    router_install_smartctl_exporter_name }}/smartctl_exporter > {{ router_install_smartctl_exporter_install_dir }}/smartctl_exporter"
+  changed_when: true
+  when: router_install_smartctl_exporter_install
+
+- name: Change file permissions
+  ansible.builtin.file:
+    path: "{{ router_install_smartctl_exporter_install_dir }}/smartctl_exporter"
+    mode: "0755"
+  when: router_install_smartctl_exporter_install
+
+- name: Remove Temporary File
+  ansible.builtin.file:
+    path: "/tmp/{{ router_install_smartctl_exporter_archive_filename }}"
+    state: absent
+  when: router_install_smartctl_exporter_install
+
+- name: Ensure smartctl_exporter command is present in post-mount
+  ansible.builtin.lineinfile:
+    path: "{{ router_post_mount_script }}"
+    line: "{{ router_install_smartctl_exporter_install_dir }}/smartctl_exporter {{ router_install_smartctl_exporter_options }} &"
+    insertafter: EOF
+    state: present

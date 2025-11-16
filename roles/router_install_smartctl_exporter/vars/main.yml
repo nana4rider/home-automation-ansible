@@ -1,0 +1,9 @@
+---
+router_install_smartctl_exporter_version: "0.14.0"
+router_install_smartctl_exporter_name: "smartctl_exporter-{{ router_install_smartctl_exporter_version }}.linux-armv7"
+router_install_smartctl_exporter_archive_filename: "{{ router_install_smartctl_exporter_name }}.tar.gz"
+router_install_smartctl_exporter_url:
+  https://github.com/prometheus-community/smartctl_exporter/releases/download/v{{
+  router_install_smartctl_exporter_version }}/{{ router_install_smartctl_exporter_archive_filename }}
+router_install_smartctl_exporter_install_dir: "{{ router_app_dir }}/smartctl_exporter"
+router_install_smartctl_exporter_options: --smartctl.device="/dev/sda;sat" --smartctl.path="/opt/sbin/smartctl"

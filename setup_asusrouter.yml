@@ -9,3 +9,5 @@
       tags: router_setup_dnsmasq
     - role: router_install_node_exporter
       tags: router_install_node_exporter
+    - role: router_install_smartctl_exporter
+      tags: router_install_smartctl_exporter
