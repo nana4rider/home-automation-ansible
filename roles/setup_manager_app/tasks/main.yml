@@ -8,8 +8,6 @@
       - docker-ce-cli
       - containerd.io
       - docker-compose-plugin
-      # app
-      - smartmontools
     update_cache: true
     state: latest
 
