@@ -1,4 +1,33 @@
 ---
+- name: Create keyrings directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Docker GPG key
+  become: true
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/debian/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: "0644"
+
+- name: Add Docker GPG Key
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+    update_cache: true
+
+- name: Install docker.sources from template
+  become: true
+  ansible.builtin.template:
+    src: docker.sources
+    dest: /etc/apt/sources.list.d/docker.sources
+    mode: "0644"
+
 - name: Install Packages
   become: true
   ansible.builtin.apt:
@@ -11,7 +40,8 @@
     update_cache: true
     state: latest
 
-- name: Add Docker Group
+# NOTE: グループ追加後は、Playbookを再実行する必要がある
+- name: Add current user to 'docker' group
   become: true
   ansible.builtin.user:
     name: "{{ ansible_user }}"

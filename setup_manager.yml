@@ -2,6 +2,9 @@
 - name: Setup Raspberry Pi Manager
   hosts: raspberrypi_manager
   roles:
+    - role: add_cmdline_txt
+      tags: add_cmdline_txt
+
     - role: install_tools
       tags: install_tools
     - role: configure_ssh
@@ -13,10 +16,6 @@
     - role: configure_zsh
       tags: configure_zsh
 
-    - role: resize_swap
-      tags: resize_swap
-    - role: add_cmdline_txt
-      tags: add_cmdline_txt
     - role: mount_backup_server
       tags: mount_backup_server
     - role: configure_cron

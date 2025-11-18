@@ -6,8 +6,6 @@ ssh_key_name: manager.home
 
 shell_context_color: 175
 
-swap_size: 2048
-
 cron_jobs:
   # Monthly
   - name: "backup-full-sh"
