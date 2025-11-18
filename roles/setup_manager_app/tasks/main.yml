@@ -1,4 +1,13 @@
 ---
+- name: Create /etc/docker/daemon.json
+  become: true
+  ansible.builtin.copy:
+    src: docker-daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: Create keyrings directory
   become: true
   ansible.builtin.file:
