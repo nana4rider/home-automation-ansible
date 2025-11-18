@@ -40,7 +40,12 @@
     update_cache: true
     state: latest
 
-# NOTE: グループ追加後は、Playbookを再実行する必要がある
+- name: Create container network
+  become: true
+  community.docker.docker_network:
+    name: common_network
+    driver: bridge
+
 - name: Add current user to 'docker' group
   become: true
   ansible.builtin.user:
@@ -79,39 +84,3 @@
   until: setup_manager_app_async_poll_results.finished
   retries: 30
   delay: 1
-
-- name: Create container network
-  community.docker.docker_network:
-    name: common_network
-    driver: bridge
-
-- name: Find all compose.yaml files
-  ansible.builtin.find:
-    paths: "{{ ansible_env.HOME }}/repository/dockyard"
-    patterns: "compose.yaml"
-    recurse: true
-  register: setup_manager_app_compose_files
-
-- name: Start docker compose up -d asynchronously
-  community.docker.docker_compose_v2:
-    project_src: "{{ item.path | dirname }}"
-    state: present
-  loop: "{{ setup_manager_app_compose_files.files }}"
-  loop_control:
-    label: "{{ item.path }}"
-  async: 300
-  poll: 0
-  changed_when: false
-  register: setup_manager_app_async_jobs
-
-- name: Wait for async tasks to complete
-  ansible.builtin.async_status:
-    jid: "{{ item.ansible_job_id }}"
-  loop: "{{ setup_manager_app_async_jobs.results }}"
-  loop_control:
-    label: "{{ item.item.path }}"
-  when: item.ansible_job_id is defined
-  register: setup_manager_app_async_poll_results
-  until: setup_manager_app_async_poll_results.finished
-  retries: 20
-  delay: 3
