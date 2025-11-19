@@ -1,11 +1,11 @@
 PS1='${debian_chroot:+($debian_chroot)}\[\e[38;5;'$(cat ~/.contextcolor)'m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] '
 
 # ^rで履歴の表示
-function peco-select-history() {
-    local selected=$(history | awk '{$1=""; print substr($0,2)}' | tac | peco --query "$READLINE_LINE")
+function select-history() {
+    local selected=$(history | awk '{$1=""; print substr($0,2)}' | tac | fzf --layout reverse --query "$READLINE_LINE")
     if [[ -n "$selected" ]]; then
         READLINE_LINE="$selected"
         READLINE_POINT=${#READLINE_LINE}
     fi
 }
-bind -x '"\C-r": peco-select-history'
+bind -x '"\C-r": select-history'

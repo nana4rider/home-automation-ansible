@@ -9,16 +9,16 @@ function pulls() {
 }
 
 # コンテナの一覧を表示
-function peco-cd-container() {
-  local dir=$(ls ~/repository/dockyard -F | grep / | sed s/\\/$//g | peco --query "$LBUFFER")
+function cd-container() {
+  local dir=$(ls ~/repository/dockyard -F | grep / | sed s/\\/$//g | fzf --layout reverse --query "$LBUFFER")
   if [ -n "${dir}" ]; then
     BUFFER="cd ~/repository/dockyard/${dir}"
     zle accept-line
   fi
   zle clear-screen
 }
-zle -N peco-cd-container
-bindkey '^o' peco-cd-container
+zle -N cd-container
+bindkey '^o' cd-container
 
 # 補完スクリプトのディレクトリを追加
 fpath=(~/.zsh/completions $fpath)

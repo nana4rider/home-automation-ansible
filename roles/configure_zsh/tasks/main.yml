@@ -4,7 +4,7 @@
   ansible.builtin.apt:
     name:
       - zsh
-      - peco
+      - fzf
     update_cache: true
     state: latest
 
