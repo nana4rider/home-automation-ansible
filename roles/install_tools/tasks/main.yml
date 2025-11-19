@@ -11,6 +11,6 @@
 
 - name: Transfer .gitconfig
   ansible.builtin.template:
-    src: "files/.gitconfig"
+    src: ".gitconfig"
     dest: "{{ ansible_env.HOME }}/"
     mode: "0644"
