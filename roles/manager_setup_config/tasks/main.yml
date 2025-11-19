@@ -9,39 +9,39 @@
   delegate_to: localhost
   run_once: true
   ansible.builtin.find:
-    paths: "{{ 'files/host/' ~ inventory_hostname ~ '/config' }}"
+    paths: "{{ role_path }}/templates/config"
     recurse: true
     file_type: file
-  register: setup_manager_config_found_files
+  register: manager_setup_config_found_files
 
 - name: Store config files list
   ansible.builtin.set_fact:
-    setup_manager_config_files: "{{ setup_manager_config_found_files.files | map(attribute='path') | list }}"
+    manager_setup_config_files: "{{ manager_setup_config_found_files.files | map(attribute='path') | list }}"
 
 - name: Ensure target directories exist
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/config/{{ item }}"
     state: directory
     mode: "0700"
-  loop: "{{ setup_manager_config_files | map('dirname') | map('basename') | unique | list }}"
+  loop: "{{ manager_setup_config_files | map('dirname') | map('basename') | unique | list }}"
 
 - name: Transfer configs to remote server
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/config/{{ item | dirname | basename }}/{{ item | basename }}"
     mode: "0600"
-  loop: "{{ setup_manager_config_files }}"
+  loop: "{{ manager_setup_config_files }}"
 
 - name: Create app .ssh directories
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/config/{{ item }}/.ssh"
     state: directory
     mode: "0700"
-  loop: "{{ setup_manager_config_copy_private_keys }}"
+  loop: "{{ manager_setup_config_copy_private_keys }}"
 
 - name: Transfer app private keys
   ansible.builtin.copy:
     src: "files/all/ssh/{{ item }}/id_ed25519"
     dest: "{{ ansible_env.HOME }}/config/{{ item }}/.ssh/id_ed25519"
     mode: "0600"
-  loop: "{{ setup_manager_config_copy_private_keys }}"
+  loop: "{{ manager_setup_config_copy_private_keys }}"

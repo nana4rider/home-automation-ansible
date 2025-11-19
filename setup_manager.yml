@@ -20,12 +20,13 @@
       tags: mount_backup_server
     - role: configure_cron
       tags: configure_cron
-    - role: setup_manager_data
-      tags: setup_manager_data
-    - role: setup_manager_config
-      tags: setup_manager_config
-    - role: setup_manager_app
-      tags: setup_manager_app
+
+    - role: manager_setup_data
+      tags: manager_setup_data
+    - role: manager_setup_config
+      tags: manager_setup_config
+    - role: manager_setup_app
+      tags: manager_setup_app
 
     - role: cleanup
       tags: cleanup

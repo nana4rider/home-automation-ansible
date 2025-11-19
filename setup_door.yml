@@ -17,10 +17,11 @@
 
     - role: install_nodejs
       tags: install_nodejs
-    - role: install_jema2mqtt
-      tags: install_jema2mqtt
     - role: install_node_exporter
       tags: install_node_exporter
+
+    - role: door_setup_app
+      tags: door_setup_app
 
     - role: cleanup
       tags: cleanup

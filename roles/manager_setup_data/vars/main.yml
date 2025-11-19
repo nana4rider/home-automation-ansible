@@ -1,0 +1,2 @@
+---
+manager_setup_data_backup_file: "{{ backup.mount_dir }}/{{ inventory_hostname }}/backup-home-1.tar.gz"
