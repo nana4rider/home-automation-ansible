@@ -67,7 +67,7 @@
     path: "{{ ansible_env.HOME }}/{{ item }}"
     state: directory
     mode: "0755"
-  loop: "{{ setup_manager_app_base_directories }}"
+  loop: "{{ manager_setup_app_base_directories }}"
 
 - name: Clone Git repositories with shallow depth if not already cloned
   ansible.builtin.git:
@@ -76,20 +76,20 @@
     accept_hostkey: true
     version: main
     depth: 1
-  loop: "{{ setup_manager_app_clone_repositories }}"
+  loop: "{{ manager_setup_app_clone_repositories }}"
   async: 20
   poll: 0
   changed_when: false
-  register: setup_manager_app_async_jobs
+  register: manager_setup_app_async_jobs
 
 - name: Wait for async tasks to complete
   ansible.builtin.async_status:
     jid: "{{ item.ansible_job_id }}"
-  loop: "{{ setup_manager_app_async_jobs.results }}"
+  loop: "{{ manager_setup_app_async_jobs.results }}"
   loop_control:
     label: "{{ item.item }}"
   when: item.ansible_job_id is defined
-  register: setup_manager_app_async_poll_results
-  until: setup_manager_app_async_poll_results.finished
+  register: manager_setup_app_async_poll_results
+  until: manager_setup_app_async_poll_results.finished
   retries: 30
   delay: 1

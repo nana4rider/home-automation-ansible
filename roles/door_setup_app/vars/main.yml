@@ -1,0 +1,2 @@
+---
+door_setup_app_jema2mqtt_dir: "{{ ansible_env.HOME }}/app/jema2mqtt"

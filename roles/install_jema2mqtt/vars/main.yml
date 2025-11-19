@@ -1,2 +1,0 @@
----
-install_jema2mqtt_app_dir: "{{ ansible_env.HOME }}/app/jema2mqtt"

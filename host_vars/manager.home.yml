@@ -4,6 +4,11 @@ authorized_key_names:
   - hass.home
 ssh_key_name: manager.home
 
+add_cmdline_txt:
+  - "cgroup_enable=cpuset"
+  - "cgroup_memory=1"
+  - "cgroup_enable=memory"
+
 shell_context_color: 175
 
 cron_jobs:

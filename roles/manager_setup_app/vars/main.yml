@@ -1,0 +1,12 @@
+---
+manager_setup_app_clone_repositories:
+  - dockyard
+  - monitoring
+  - nana4-net
+  - shellpot
+  - home-wiki
+  - hass-config
+
+manager_setup_app_base_directories:
+  - "repository"
+  - "dev"

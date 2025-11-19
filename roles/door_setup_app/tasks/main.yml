@@ -1,69 +1,69 @@
 ---
 - name: Create App Directory
   ansible.builtin.file:
-    path: "{{ install_jema2mqtt_app_dir }}"
+    path: "{{ door_setup_app_jema2mqtt_dir }}"
     state: directory
     mode: "0755"
 
 - name: Transfer config.json from local machine
   ansible.builtin.copy:
     src: "files/host/{{ inventory_hostname }}/config/jema2mqtt/config.json"
-    dest: "{{ install_jema2mqtt_app_dir }}/config.json"
+    dest: "{{ door_setup_app_jema2mqtt_dir }}/config.json"
     mode: "0600"
 
 - name: Transfer .env from local machine
   ansible.builtin.template:
     src: "files/group/{{ group_names[0] }}/config/jema2mqtt/app.env"
-    dest: "{{ install_jema2mqtt_app_dir }}/.env"
+    dest: "{{ door_setup_app_jema2mqtt_dir }}/.env"
     mode: "0600"
 
 - name: Check JEMA2MQTT service status
   become: true
   ansible.builtin.systemd_service:
     name: jema2mqtt
-  register: install_jema2mqtt_service_status
+  register: door_setup_app_service_status
 
 - name: Check if JEMA2MQTT needs installation
   ansible.builtin.set_fact:
-    install_jema2mqtt_require_install: >-
-      {{ install_jema2mqtt_service_status.status.LoadState == 'not-found' or
-         install_jema2mqtt_service_status.status.UnitFileState == 'disabled' }}
+    door_setup_app_require_install: >-
+      {{ door_setup_app_service_status.status.LoadState == 'not-found' or
+         door_setup_app_service_status.status.UnitFileState == 'disabled' }}
 
 - name: Download index.mjs.gz"
   ansible.builtin.get_url:
     url: "https://github.com/{{ github.user }}/jema2mqtt/releases/latest/download/index.mjs.gz"
-    dest: "{{ install_jema2mqtt_app_dir }}/index.mjs.gz"
+    dest: "{{ door_setup_app_jema2mqtt_dir }}/index.mjs.gz"
     mode: "0644"
-  when: install_jema2mqtt_require_install
+  when: door_setup_app_require_install
 
 - name: Extract file using gunzip
   ansible.builtin.command:
-    cmd: "gunzip -f {{ install_jema2mqtt_app_dir }}/index.mjs.gz"
+    cmd: "gunzip -f {{ door_setup_app_jema2mqtt_dir }}/index.mjs.gz"
   changed_when: true
-  when: install_jema2mqtt_require_install
+  when: door_setup_app_require_install
 
 - name: Download Service installer script
   ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/{{ github.user }}/jema2mqtt/refs/heads/main/installer/install-service.sh"
     dest: "/tmp/install-service.sh"
     mode: "0755"
-  when: install_jema2mqtt_require_install
+  when: door_setup_app_require_install
 
 - name: Install JEMA2MQTT Service
   ansible.builtin.command:
     cmd: "/tmp/install-service.sh jema2mqtt"
   changed_when: true
-  when: install_jema2mqtt_require_install
+  when: door_setup_app_require_install
 
 - name: Remove Temporary File
   ansible.builtin.file:
     path: "/tmp/install-service.sh"
     state: absent
-  when: install_jema2mqtt_require_install
+  when: door_setup_app_require_install
 
 - name: Start JEMA2MQTT service
   become: true
   ansible.builtin.systemd:
     name: jema2mqtt
     state: started
-  when: install_jema2mqtt_require_install
+  when: door_setup_app_require_install
