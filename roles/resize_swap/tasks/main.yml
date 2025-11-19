@@ -1,8 +1,0 @@
----
-- name: Ensure desired swap size is set in dphys-swapfile
-  ansible.builtin.lineinfile:
-    path: /etc/dphys-swapfile
-    regexp: "^CONF_SWAPSIZE="
-    line: "CONF_SWAPSIZE={{ swap_size | mandatory }}"
-  become: true
-  notify: Resize Swapfile

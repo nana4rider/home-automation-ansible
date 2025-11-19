@@ -6,14 +6,7 @@ ssh_key_name: manager.home
 
 shell_context_color: 175
 
-swap_size: 2048
-
 cron_jobs:
-  # Monthly
-  - name: "backup-full-sh"
-    job: "{{ ansible_env.HOME }}/repository/shellpot/backup-full.sh"
-    hour: 5
-    day: "1"
   # Weekly
   - name: "docker-prune-sh"
     job: "docker system prune -a -f"

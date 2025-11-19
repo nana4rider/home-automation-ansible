@@ -1,3 +1,0 @@
-#!/bin/bash
-
-~/repository/shellpot/backup-full.sh "$@"

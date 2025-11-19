@@ -1,4 +1,42 @@
 ---
+- name: Create /etc/docker/daemon.json
+  become: true
+  ansible.builtin.copy:
+    src: docker-daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create keyrings directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Docker GPG key
+  become: true
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/debian/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: "0644"
+
+- name: Add Docker GPG Key
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+    update_cache: true
+
+- name: Install docker.sources from template
+  become: true
+  ansible.builtin.template:
+    src: docker.sources
+    dest: /etc/apt/sources.list.d/docker.sources
+    mode: "0644"
+
 - name: Install Packages
   become: true
   ansible.builtin.apt:
@@ -11,7 +49,13 @@
     update_cache: true
     state: latest
 
-- name: Add Docker Group
+- name: Create container network
+  become: true
+  community.docker.docker_network:
+    name: common_network
+    driver: bridge
+
+- name: Add current user to 'docker' group
   become: true
   ansible.builtin.user:
     name: "{{ ansible_user }}"
@@ -49,39 +93,3 @@
   until: setup_manager_app_async_poll_results.finished
   retries: 30
   delay: 1
-
-- name: Create container network
-  community.docker.docker_network:
-    name: common_network
-    driver: bridge
-
-- name: Find all compose.yaml files
-  ansible.builtin.find:
-    paths: "{{ ansible_env.HOME }}/repository/dockyard"
-    patterns: "compose.yaml"
-    recurse: true
-  register: setup_manager_app_compose_files
-
-- name: Start docker compose up -d asynchronously
-  community.docker.docker_compose_v2:
-    project_src: "{{ item.path | dirname }}"
-    state: present
-  loop: "{{ setup_manager_app_compose_files.files }}"
-  loop_control:
-    label: "{{ item.path }}"
-  async: 300
-  poll: 0
-  changed_when: false
-  register: setup_manager_app_async_jobs
-
-- name: Wait for async tasks to complete
-  ansible.builtin.async_status:
-    jid: "{{ item.ansible_job_id }}"
-  loop: "{{ setup_manager_app_async_jobs.results }}"
-  loop_control:
-    label: "{{ item.item.path }}"
-  when: item.ansible_job_id is defined
-  register: setup_manager_app_async_poll_results
-  until: setup_manager_app_async_poll_results.finished
-  retries: 20
-  delay: 3
