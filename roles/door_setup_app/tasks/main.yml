@@ -7,13 +7,13 @@
 
 - name: Transfer config.json from local machine
   ansible.builtin.copy:
-    src: "files/host/{{ inventory_hostname }}/config/jema2mqtt/config.json"
+    src: "config/jema2mqtt/{{ inventory_hostname }}/config.json"
     dest: "{{ door_setup_app_jema2mqtt_dir }}/config.json"
     mode: "0600"
 
 - name: Transfer .env from local machine
   ansible.builtin.template:
-    src: "files/group/{{ group_names[0] }}/config/jema2mqtt/app.env"
+    src: "config/jema2mqtt/app.env"
     dest: "{{ door_setup_app_jema2mqtt_dir }}/.env"
     mode: "0600"
 

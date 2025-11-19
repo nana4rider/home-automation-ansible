@@ -9,7 +9,7 @@
   delegate_to: localhost
   run_once: true
   ansible.builtin.find:
-    paths: "{{ 'files/host/' ~ inventory_hostname ~ '/config' }}"
+    paths: "{{ role_path }}/templates/config"
     recurse: true
     file_type: file
   register: manager_setup_config_found_files
