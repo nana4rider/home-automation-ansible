@@ -1,8 +1,5 @@
 ---
 nodejs_version: 24
 
-nodejs_install_npm_user: root
-
 authorized_key_names:
   - manager.home
-alloy_config_name: config_door.alloy
