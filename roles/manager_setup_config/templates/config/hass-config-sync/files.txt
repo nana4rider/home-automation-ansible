@@ -1,3 +1,4 @@
+config/.HA_VERSION
 config/.vscode
 config/.storage/lovelace
 config/.storage/lovelace.lovelace_tablet
