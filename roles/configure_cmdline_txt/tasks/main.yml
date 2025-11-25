@@ -6,4 +6,4 @@
     path: /boot/firmware/cmdline.txt
     regexp: '^([\w](?!.*\b{{ item }}\b).*)$'
     replace: '\1 {{ item }}'
-  with_items: "{{ add_cmdline_txt }}"
+  with_items: "{{ add_cmdline_txt_items }}"

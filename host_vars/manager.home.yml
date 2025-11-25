@@ -4,7 +4,7 @@ authorized_key_names:
   - hass.home
 ssh_key_name: manager.home
 
-add_cmdline_txt:
+add_cmdline_txt_items:
   - "cgroup_enable=cpuset"
   - "cgroup_memory=1"
   - "cgroup_enable=memory"
