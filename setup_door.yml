@@ -2,8 +2,6 @@
 - name: Setup Raspberry Pi Door
   hosts: raspberrypi_door
   roles:
-    - role: install_tools
-      tags: install_tools
     - role: configure_network_manager
       tags: configure_network_manager
     - role: configure_ssh
