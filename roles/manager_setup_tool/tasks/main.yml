@@ -6,6 +6,7 @@
       - git
       - jq
       - yq
+      - cu
     update_cache: true
     state: latest
 

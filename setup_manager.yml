@@ -4,9 +4,9 @@
   roles:
     - role: configure_cmdline_txt
       tags: configure_cmdline_txt
+    - role: manager_setup_tool
+      tags: manager_setup_tool
 
-    - role: install_tools
-      tags: install_tools
     - role: configure_ssh
       tags: configure_ssh
     - role: configure_motd
