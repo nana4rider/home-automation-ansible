@@ -8,12 +8,20 @@
 
 - name: Apply yq changes to the backup file
   ansible.builtin.command: >
-    yq -i '.accessControl = {
-      "addRemoteUsers": true,
-      "remoteUserHeader": "X-Username",
-      "trustRemoteUser": true,
-      "defaultReauthenticationTimeout": 0
-    }' {{ configure_octoprint_config_path }}.tmp
+    yq -i '
+      .accessControl = {
+        "addRemoteUsers": true,
+        "remoteUserHeader": "X-Username",
+        "trustRemoteUser": true,
+        "defaultReauthenticationTimeout": 0
+      } |
+      .server.reverseProxy.trustedProxies = [
+        "127.0.0.1",
+        "::1",
+        "192.168.1.0/24",
+        "172.16.0.0/12"
+      ]
+    ' {{ configure_octoprint_config_path }}.tmp
   changed_when: false
 
 - name: Check if there are differences between edited and original config.yaml
