@@ -30,5 +30,5 @@ ansible-playbook setup_door.yml --limit frontdoor.home --tags install_nodejs
 ```
 
 ### 参考
-- https://docs.ansible.com/ansible/2.9_ja/user_guide/intro_patterns.html
-- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_tags.html#selecting-or-skipping-tags-when-you-run-a-playbook
+- https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_patterns.html
+- https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_tags.html#selecting-or-skipping-tags-when-you-run-a-playbook
