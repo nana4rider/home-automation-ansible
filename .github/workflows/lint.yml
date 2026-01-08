@@ -19,7 +19,7 @@ jobs:
           echo "${{ secrets.ANSIBLE_VAULT_PASS }}" > ~/.vault_pass.txt
           chmod 600 ~/.vault_pass.txt
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v25
+        uses: ansible/ansible-lint@v26
         with:
           setup_python: "true"
           requirements_file: "requirements.yml"
