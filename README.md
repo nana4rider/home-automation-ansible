@@ -25,8 +25,7 @@ ansible-galaxy collection install -r requirements.yml --upgrade
 
 ```sh
 ansible-playbook setup_manager.yml
-ansible-playbook setup_door.yml --limit frontdoor.home
-ansible-playbook setup_door.yml --limit frontdoor.home --tags install_nodejs
+ansible-playbook setup_manager.yml --tags manager_setup_data
 ```
 
 ### 参考

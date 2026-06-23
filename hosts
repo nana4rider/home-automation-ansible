@@ -4,9 +4,5 @@ asusrouter.com
 [raspberrypi_manager]
 manager.home
 
-[raspberrypi_door]
-frontdoor.home
-backdoor.home
-
 [raspberrypi_octopi]
 octopi.home

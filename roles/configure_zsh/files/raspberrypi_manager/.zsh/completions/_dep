@@ -4,7 +4,7 @@
 _dep() {
   # 補完候補を生成
   local -a service_names
-  service_names=($(ls ~/repository/dockyard -F | grep / | sed s/\\/$//g) jema2mqtt)
+  service_names=($(ls ~/repository/dockyard -F | grep / | sed s/\\/$//g))
 
   # 補完候補を渡す
   _describe 'service_name' service_names
