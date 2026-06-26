@@ -21,6 +21,8 @@
     path: "{{ backup.mountDir }}"
     src: "//{{ backup.host }}/{{ backup.serverDir }}"
     fstype: "cifs"
-    opts: "credentials={{ mount_backup_server_credentials }},vers=2.0,uid={{
-      backup.mountUid }},gid={{ backup.mountGid }},file_mode=0644,dir_mode=0755"
+    boot: false
+    opts:
+      "credentials={{ mount_backup_server_credentials }},vers=2.0,uid={{ backup.mountUid }},gid={{
+      backup.mountGid }},file_mode=0644,dir_mode=0755,x-systemd.automount,x-systemd.idle-timeout=60,_netdev"
     state: "mounted"
