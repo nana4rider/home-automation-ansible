@@ -8,33 +8,20 @@
     group: root
     mode: "0644"
 
-- name: Create keyrings directory
+- name: Configure Docker apt repository
   become: true
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: "0755"
-
-- name: Download Docker GPG key
-  become: true
-  ansible.builtin.get_url:
-    url: https://download.docker.com/linux/debian/gpg
-    dest: /etc/apt/keyrings/docker.asc
-    mode: "0644"
-
-- name: Add Docker GPG Key
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+  ansible.builtin.deb822_repository:
+    name: docker
+    types:
+      - deb
+    uris:
+      - https://download.docker.com/linux/debian
+    suites:
+      - "{{ ansible_distribution_release }}"
+    components:
+      - stable
+    signed_by: https://download.docker.com/linux/debian/gpg
     state: present
-    filename: docker
-    update_cache: true
-
-- name: Install docker.sources from template
-  become: true
-  ansible.builtin.template:
-    src: docker.sources
-    dest: /etc/apt/sources.list.d/docker.sources
     mode: "0644"
 
 - name: Install Packages
