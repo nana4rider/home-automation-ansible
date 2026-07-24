@@ -21,13 +21,13 @@ cron_jobs:
   - name: "backup-home-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/backup-home.sh"
     hour: 4
-  # Staggered every 10 minutes
+  # Staggered every 30 minutes
   - name: "grafana-sync-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/grafana-sync.sh"
-    minute: "1-51/10"
+    minute: "1-51/30"
   - name: "hass-config-sync-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/hass-config-sync.sh"
-    minute: "2-52/10"
+    minute: "2-52/30"
   - name: "home-wiki-sync-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/home-wiki-sync.sh"
-    minute: "3-53/10"
+    minute: "3-53/30"
