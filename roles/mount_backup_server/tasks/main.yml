@@ -2,7 +2,7 @@
 - name: Ensure backup mount directory exists
   become: true
   ansible.builtin.file:
-    path: "{{ backup.mountDir }}"
+    path: "{{ backup.mount_dir }}"
     state: directory
     mode: "0755"
 
@@ -18,11 +18,11 @@
 - name: Ensure CIFS mount is present in /etc/fstab and mounted
   become: true
   ansible.posix.mount:
-    path: "{{ backup.mountDir }}"
-    src: "//{{ backup.host }}/{{ backup.serverDir }}"
+    path: "{{ backup.mount_dir }}"
+    src: "//{{ backup.host }}/{{ backup.server_dir }}"
     fstype: "cifs"
     boot: false
     opts:
-      "credentials={{ mount_backup_server_credentials }},vers=2.0,uid={{ backup.mountUid }},gid={{
-      backup.mountGid }},file_mode=0644,dir_mode=0755,x-systemd.automount,x-systemd.idle-timeout=60,_netdev"
+      "credentials={{ mount_backup_server_credentials }},vers=2.0,uid={{ backup.mount_uid }},gid={{
+      backup.mount_gid }},file_mode=0644,dir_mode=0755,x-systemd.automount,x-systemd.idle-timeout=60,_netdev"
     state: "mounted"
