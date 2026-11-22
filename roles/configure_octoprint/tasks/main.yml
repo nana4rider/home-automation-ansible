@@ -11,7 +11,7 @@
     yq -i '
       .accessControl = {
         "addRemoteUsers": true,
-        "remoteUserHeader": "X-Username",
+        "remoteUserHeader": "X-Email",
         "trustRemoteUser": true,
         "defaultReauthenticationTimeout": 0
       } |
