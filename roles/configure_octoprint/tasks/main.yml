@@ -11,7 +11,7 @@
     yq -i '
       .accessControl = {
         "addRemoteUsers": true,
-        "remoteUserHeader": "X-Email",
+        "remoteUserHeader": "CF-Access-Authenticated-User-Email",
         "trustRemoteUser": true,
         "defaultReauthenticationTimeout": 0
       } |
