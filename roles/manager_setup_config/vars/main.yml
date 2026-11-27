@@ -1,3 +1,4 @@
 ---
 manager_setup_config_copy_private_keys:
   - deploy-webhook
+  - wikijs
