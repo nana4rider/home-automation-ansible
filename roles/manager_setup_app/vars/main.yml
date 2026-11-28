@@ -4,7 +4,6 @@ manager_setup_app_clone_repositories:
   - monitoring
   - nana4-net
   - shellpot
-  - home-wiki
   - hass-config
 
 manager_setup_app_base_directories:
