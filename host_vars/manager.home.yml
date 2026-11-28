@@ -28,3 +28,7 @@ cron_jobs:
   - name: "hass-config-sync-sh"
     job: "{{ ansible_env.HOME }}/repository/shellpot/hass-config-sync.sh"
     minute: "2-52/30"
+  # Staggered every 10 minutes
+  - name: "update-ddns-sh"
+    job: "{{ ansible_env.HOME }}/repository/shellpot/update-ddns.sh"
+    minute: "*/10"
